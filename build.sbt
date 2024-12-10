@@ -1,34 +1,38 @@
 ThisBuild / licenses += "ISC" -> url("https://opensource.org/licenses/ISC")
 ThisBuild / versionScheme     := Some("semver-spec")
+ThisBuild / scalaVersion      := "3.5.2"
 
 publish / skip := true
 
-lazy val scalajs_template = project
+lazy val logger = project
   .in(file("."))
-  .enablePlugins(ScalaJSPlugin)
-//  .enablePlugins(ScalablyTypedConverterPlugin)
+  .aggregate(core, node)
   .settings(
-    name             := "scalajs-template",
-    version          := "0.0.1",
-    scalaVersion     := "3.5.2",
-    organization     := "io.github.edadma",
-    githubOwner      := "edadma",
-    githubRepository := name.value,
-//    libraryDependencies += "com.raquo" %%% "laminar" % "16.0.0",
-//    libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
-    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
-//    libraryDependencies += "com.lihaoyi" %%% "pprint" % "0.9.0" % "test",
-//    Compile / npmDependencies ++= Seq(
-//      "socket.io" -> "4.7.3",
-//    ),
-    jsEnv                                  := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
-    Test / scalaJSUseMainModuleInitializer := true,
-    Test / scalaJSUseTestModuleInitializer := false,
-//    Test / scalaJSUseMainModuleInitializer := false,
-//    Test / scalaJSUseTestModuleInitializer := true,
-    scalaJSUseMainModuleInitializer := true,
-//    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
+    version                := "0.0.1",
+    organization           := "io.github.edadma",
+    githubOwner            := "edadma",
+    githubRepository       := name.value,
     publishMavenStyle      := true,
     Test / publishArtifact := false,
-    licenses += "ISC"      -> url("https://opensource.org/licenses/ISC"),
   )
+
+lazy val core = (project in file("core"))
+  .settings(
+    name := "logger-core",
+    libraryDependencies ++= Seq(
+      "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
+    ),
+    scalaJSUseMainModuleInitializer := true,
+  )
+  .enablePlugins(ScalaJSPlugin)
+
+lazy val node = (project in file("node"))
+  .dependsOn(core)
+  .settings(
+    name := "logger-node",
+    libraryDependencies ++= Seq(
+      // Add Node.js dependencies if required
+    ),
+    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
+  )
+  .enablePlugins(ScalaJSPlugin)
