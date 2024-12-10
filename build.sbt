@@ -22,9 +22,12 @@ lazy val core = (project in file("core"))
     libraryDependencies ++= Seq(
       "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
     ),
-    scalaJSUseMainModuleInitializer := true,
+    Test / scalaJSUseMainModuleInitializer := true,
+    Test / scalaJSUseTestModuleInitializer := false,
+    zonesFilter                            := { _ == "America/Montreal" },
   )
   .enablePlugins(ScalaJSPlugin)
+  .enablePlugins(TzdbPlugin)
 
 lazy val node = (project in file("node"))
   .dependsOn(core)
@@ -33,6 +36,8 @@ lazy val node = (project in file("node"))
     libraryDependencies ++= Seq(
       // Add Node.js dependencies if required
     ),
-    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
+    Test / scalaJSUseMainModuleInitializer := true,
+    Test / scalaJSUseTestModuleInitializer := false,
+    jsEnv                                  := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
   )
   .enablePlugins(ScalaJSPlugin)

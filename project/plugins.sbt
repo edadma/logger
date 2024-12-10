@@ -1,3 +1,3 @@
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.17.0")
-//addSbtPlugin("org.scalablytyped.converter" % "sbt-converter" % "1.0.0-beta43")
-addSbtPlugin("com.codecommit" % "sbt-github-packages" % "0.5.3")
+addSbtPlugin("org.scala-js"      % "sbt-scalajs"         % "1.17.0")
+addSbtPlugin("com.codecommit"    % "sbt-github-packages" % "0.5.3")
+addSbtPlugin("io.github.cquiroz" % "sbt-tzdb"            % "4.3.0")
