@@ -6,8 +6,6 @@ ThisBuild / githubOwner       := "edadma"
 ThisBuild / version           := "0.0.1"
 ThisBuild / githubRepository  := "logger"
 
-publish / skip := true
-
 lazy val logger = project
   .in(file("."))
   .settings(
