@@ -10,32 +10,17 @@ publish / skip := true
 
 lazy val logger = project
   .in(file("."))
-  .aggregate(core, node)
-
-lazy val core = (project in file("core"))
   .settings(
-    name := "logger-core",
-    libraryDependencies ++= Seq(
-      "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
-    ),
+    name                                   := "logger",
     Test / scalaJSUseMainModuleInitializer := true,
     Test / scalaJSUseTestModuleInitializer := false,
     zonesFilter                            := { _ == "America/Montreal" },
     publishMavenStyle                      := true,
     Test / publishArtifact                 := false,
+    libraryDependencies ++= Seq(
+      "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
+    ),
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) }, // Enable CommonJS modules
   )
   .enablePlugins(ScalaJSPlugin)
   .enablePlugins(TzdbPlugin)
-
-lazy val node = (project in file("node"))
-  .dependsOn(core)
-  .settings(
-    name := "logger-node",
-    libraryDependencies ++= Seq(
-      // Add Node.js dependencies if required
-    ),
-    Test / scalaJSUseMainModuleInitializer := true,
-    Test / scalaJSUseTestModuleInitializer := false,
-    jsEnv                                  := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
-  )
-  .enablePlugins(ScalaJSPlugin)
