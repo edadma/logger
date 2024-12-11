@@ -1,10 +1,19 @@
 package io.github.edadma.logger
 
 class Logger(private var handler: LogHandler, private var formatter: LogFormatter) {
-  private var globalLogLevel: LogLevel = LogLevel.INFO
+  private var logLevel: LogLevel = LogLevel.INFO
+  private var opId: Int          = 0
+
+  def nextOpId: Int =
+    val n = opId
+
+    opId += 1
+    n
+
+  def resetOpId(): Unit = opId = 0
 
   def setLogLevel(level: LogLevel): Unit = {
-    globalLogLevel = level
+    logLevel = level
   }
 
   def setHandler(newHandler: LogHandler): Unit = {
@@ -16,7 +25,7 @@ class Logger(private var handler: LogHandler, private var formatter: LogFormatte
   }
 
   def log(level: LogLevel, message: String, category: String = "", opId: Any = null): Unit = {
-    if (LogLevel.shouldLog(globalLogLevel, level)) {
+    if (LogLevel.shouldLog(logLevel, level)) {
       val opIdStr = if (opId != null) opId.toString else ""
       val formattedMessage =
         formatter.format(level, message, Option(category).filter(_.nonEmpty), Option(opIdStr).filter(_.nonEmpty))

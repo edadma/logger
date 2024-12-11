@@ -3,7 +3,7 @@ ThisBuild / versionScheme     := Some("semver-spec")
 ThisBuild / scalaVersion      := "3.5.2"
 ThisBuild / organization      := "io.github.edadma"
 ThisBuild / githubOwner       := "edadma"
-ThisBuild / version           := "0.0.1"
+ThisBuild / version           := "0.0.2"
 ThisBuild / githubRepository  := "logger"
 
 lazy val logger = project
