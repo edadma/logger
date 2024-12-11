@@ -18,3 +18,7 @@ Main.scala
 build.sbt
 ./project
 plugins.sbt
+
+# docs
+./
+README.md
