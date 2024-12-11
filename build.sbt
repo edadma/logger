@@ -4,6 +4,7 @@ ThisBuild / scalaVersion      := "3.5.2"
 ThisBuild / organization      := "io.github.edadma"
 ThisBuild / githubOwner       := "edadma"
 ThisBuild / version           := "0.0.1"
+ThisBuild / githubRepository  := "logger"
 
 publish / skip := true
 
@@ -13,8 +14,7 @@ lazy val logger = project
 
 lazy val core = (project in file("core"))
   .settings(
-    name             := "logger-core",
-    githubRepository := name.value,
+    name := "logger-core",
     libraryDependencies ++= Seq(
       "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
     ),
@@ -30,8 +30,7 @@ lazy val core = (project in file("core"))
 lazy val node = (project in file("node"))
   .dependsOn(core)
   .settings(
-    name             := "logger-node",
-    githubRepository := name.value,
+    name := "logger-node",
     libraryDependencies ++= Seq(
       // Add Node.js dependencies if required
     ),
