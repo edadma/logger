@@ -32,7 +32,7 @@ val logger = LoggerFactory.getLogger
 logger.info("This is a basic log message")
 logger.debug("Debug message with category", category = "HTTP")
 logger.warn("Warning message with operation ID", opId = 123)
-logger.error("Error message with category and opId", category = "DB", opId = "XYZ-789")
+logger.error("Error message with category and opId", category = "DB", opId = "XYZ-789", metadata = Map("key1" -> 123, "key2" -> "value2"))
 
 // Configure timestamp display
 logger.setFormatter(new DefaultLogFormatter(includeTimestamp = false)) // Disable timestamps

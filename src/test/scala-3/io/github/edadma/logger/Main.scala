@@ -6,6 +6,11 @@ package io.github.edadma.logger
 //  logger.setLogLevel(LogLevel.OFF)
 //  LoggerFactory.enableFileLogging("log")
   logger.info("This is a basic log.")
-  logger.info(Map("category" -> "log"), category = "HTTP")
+  logger.debug("This log has a category.", category = "HTTP")
   logger.warn("This log has an opId.", opId = 12345)
-  logger.error("This log has both.", category = "DB", opId = "XYZ-123")
+  logger.error(
+    "This log has both.",
+    category = "DB",
+    opId = "XYZ-123",
+    metadata = Map("key1" -> 123, "key2" -> "value2"),
+  )

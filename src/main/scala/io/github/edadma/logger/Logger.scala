@@ -30,7 +30,13 @@ class Logger(private var handler: LogHandler, private var formatter: LogFormatte
       case s: Seq[?]    => s map String.valueOf mkString ", "
       case _            => String.valueOf(a)
 
-  def log(level: LogLevel, message: Any, category: String = "", opId: Any = null): Unit = {
+  def log(
+      level: LogLevel,
+      message: Any,
+      category: String = "",
+      opId: Any = null,
+      metadata: Map[String, Any] = Map.empty,
+  ): Unit = {
     if (LogLevel.shouldLog(logLevel, level)) {
       val opIdStr = if (opId != null) opId.toString else ""
       val formattedMessage =
@@ -39,23 +45,24 @@ class Logger(private var handler: LogHandler, private var formatter: LogFormatte
           toString(message),
           Option(category).filter(_.nonEmpty),
           Option(opIdStr).filter(_.nonEmpty),
+          Option(metadata).filter(_.nonEmpty),
         )
       handler.log(level, formattedMessage)
     }
   }
 
-  def trace(message: Any, category: String = "", opId: Any = null): Unit =
-    log(LogLevel.TRACE, message, category, opId)
+  def trace(message: Any, category: String = "", opId: Any = null, metadata: Map[String, Any] = Map.empty): Unit =
+    log(LogLevel.TRACE, message, category, opId, metadata)
 
-  def debug(message: Any, category: String = "", opId: Any = null): Unit =
-    log(LogLevel.DEBUG, message, category, opId)
+  def debug(message: Any, category: String = "", opId: Any = null, metadata: Map[String, Any] = Map.empty): Unit =
+    log(LogLevel.DEBUG, message, category, opId, metadata)
 
-  def info(message: Any, category: String = "", opId: Any = null): Unit =
-    log(LogLevel.INFO, message, category, opId)
+  def info(message: Any, category: String = "", opId: Any = null, metadata: Map[String, Any] = Map.empty): Unit =
+    log(LogLevel.INFO, message, category, opId, metadata)
 
-  def warn(message: Any, category: String = "", opId: Any = null): Unit =
-    log(LogLevel.WARN, message, category, opId)
+  def warn(message: Any, category: String = "", opId: Any = null, metadata: Map[String, Any] = Map.empty): Unit =
+    log(LogLevel.WARN, message, category, opId, metadata)
 
-  def error(message: Any, category: String = "", opId: Any = null): Unit =
-    log(LogLevel.ERROR, message, category, opId)
+  def error(message: Any, category: String = "", opId: Any = null, metadata: Map[String, Any] = Map.empty): Unit =
+    log(LogLevel.ERROR, message, category, opId, metadata)
 }
