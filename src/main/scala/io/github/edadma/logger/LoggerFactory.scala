@@ -6,8 +6,11 @@ import scala.scalajs.js
 import scala.scalajs.js.Dynamic.global
 
 object LoggerFactory {
-  private val defaultFormatter = new DefaultLogFormatter(includeTimestamp = true)
-  private val logger           = new Logger(new ConsoleHandler, defaultFormatter)
+  private val logger           = newLogger
+
+  val defaultFormatter = new DefaultLogFormatter(includeTimestamp = true)
+
+  def newLogger: Logger = new Logger(new ConsoleHandler, defaultFormatter)
 
   def getLogger: Logger = logger
 
