@@ -17,7 +17,7 @@ A simple, flexible logging library for Scala.js applications that supports both 
 Add the following dependency to your `build.sbt`:
 
 ```scala
-libraryDependencies += "io.github.edadma" %%% "logger" % "0.0.2"
+libraryDependencies += "io.github.edadma" %%% "logger" % "0.0.6"
 ```
 
 ## Basic Usage
