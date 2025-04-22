@@ -5,7 +5,7 @@ ThisBuild / scalaVersion           := "3.6.4"
 ThisBuild / organization           := "io.github.edadma"
 ThisBuild / organizationName       := "edadma"
 ThisBuild / organizationHomepage   := Some(url("https://github.com/edadma"))
-ThisBuild / version                := "0.0.8"
+ThisBuild / version                := "0.0.9"
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 ThisBuild / sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 
@@ -75,4 +75,12 @@ lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     Test / scalaJSUseTestModuleInitializer      := true,
     scalaJSUseMainModuleInitializer             := true,
     libraryDependencies += "io.github.cquiroz" %%% "scala-java-time" % "2.6.0",
+  )
+
+lazy val root = project
+  .in(file("."))
+  .aggregate(logger.js, logger.jvm, logger.native)
+  .settings(
+    publish / skip      := true,
+    publishLocal / skip := true,
   )
