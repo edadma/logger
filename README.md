@@ -67,7 +67,7 @@ Messages with a level lower than the current log level will not be logged.
 To enable file logging:
 
 ```scala
-LoggerFactory.enableFileLogging("path/to/logfile.log")
+LoggerFactory.setFileLogging()
 ```
 
 or

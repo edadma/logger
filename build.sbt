@@ -53,18 +53,11 @@ lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         "-unchecked",
         "-Xfatal-warnings",
       ),
-    organization := "io.github.edadma",
-//    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
-    libraryDependencies ++= Seq(
-      "io.github.edadma" %%% "cross-platform" % "0.0.2",
-    ),
-    libraryDependencies ++= Seq(
-//      "com.github.scopt" %%% "scopt" % "4.1.0",
-//      "com.lihaoyi" %%% "pprint" % "0.9.0" % "test",
-    ),
-    publishMavenStyle      := true,
-    Test / publishArtifact := false,
-    licenses += "ISC"      -> url("https://opensource.org/licenses/ISC"),
+    libraryDependencies += "io.github.edadma" %%% "cross-platform" % "0.0.3",
+    organization                               := "io.github.edadma",
+    publishMavenStyle                          := true,
+    Test / publishArtifact                     := false,
+    licenses += "ISC"                          -> url("https://opensource.org/licenses/ISC"),
   )
   .jvmSettings(
     libraryDependencies += "org.scala-js" %% "scalajs-stubs" % "1.1.0" % "provided",

@@ -6,7 +6,7 @@ import scala.scalajs.js
 import scala.scalajs.js.Dynamic.global
 
 object LoggerFactory {
-  private val logger           = newLogger
+  private val logger = newLogger
 
   val defaultFormatter = new DefaultLogFormatter(includeTimestamp = true)
 
@@ -14,19 +14,9 @@ object LoggerFactory {
 
   def getLogger: Logger = logger
 
-  def enableFileLogging(filePath: String): Unit = {
-    if (isNodeJS) {
-      logger.setHandler(new FileHandler(filePath))
-    } else {
-      throw new UnsupportedOperationException("File logging is only supported in Node.js")
-    }
-  }
+  def setFileLogging(): Unit = logger.setFileLogging()
 
   def setFormatter(newFormatter: LogFormatter): Unit = {
     logger.setFormatter(newFormatter)
-  }
-
-  private def isNodeJS: Boolean = {
-    !js.isUndefined(global.process) && !js.isUndefined(global.process.version)
   }
 }
