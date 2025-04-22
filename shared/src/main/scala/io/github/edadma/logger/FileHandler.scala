@@ -1,6 +1,5 @@
 package io.github.edadma.logger
 
-import io.github.edadma.logger.{LogHandler, LogFormatter, DefaultLogFormatter, LogLevel}
 import io.github.edadma.cross_platform.appendFile
 
 class FileHandler(filePath: String) extends LogHandler {

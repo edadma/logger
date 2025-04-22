@@ -2,9 +2,6 @@ package io.github.edadma.logger
 
 import io.github.edadma.logger.FileHandler
 
-import scala.scalajs.js
-import scala.scalajs.js.Dynamic.global
-
 object LoggerFactory {
   private val logger = newLogger
 
