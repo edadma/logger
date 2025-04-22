@@ -5,7 +5,7 @@ ThisBuild / scalaVersion           := "3.6.4"
 ThisBuild / organization           := "io.github.edadma"
 ThisBuild / organizationName       := "edadma"
 ThisBuild / organizationHomepage   := Some(url("https://github.com/edadma"))
-ThisBuild / version                := "0.0.1"
+ThisBuild / version                := "0.0.7"
 ThisBuild / sonatypeCredentialHost := "s01.oss.sonatype.org"
 ThisBuild / sonatypeRepository     := "https://s01.oss.sonatype.org/service/local"
 
@@ -42,33 +42,16 @@ ThisBuild / publishTo := {
 }
 ThisBuild / publishMavenStyle := true
 
-lazy val commonSettings = Seq(
-  scalacOptions ++= Seq(
-    "-deprecation",
-    "-feature",
-    "-unchecked",
-    "-Xfatal-warnings",
-  ),
-  scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) },
-  //  scalaJSLinkerConfig ~= { _.withModuleSplitStyle(ModuleSplitStyle.SmallestModules) },
-  scalaJSLinkerConfig ~= { _.withSourceMap(false) },
-)
-
 lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .in(file("."))
   .settings(
-    name         := "logger",
-    version      := "0.0.7",
-    scalaVersion := "3.6.4",
+    name := "logger",
     scalacOptions ++=
       Seq(
         "-deprecation",
         "-feature",
         "-unchecked",
-        "-language:postfixOps",
-        "-language:implicitConversions",
-        "-language:existentials",
-        "-language:dynamics",
+        "-Xfatal-warnings",
       ),
     organization := "io.github.edadma",
 //    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
@@ -92,6 +75,7 @@ lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsSettings(
     jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
+//    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     //    Test / scalaJSUseMainModuleInitializer := true,
     //    Test / scalaJSUseTestModuleInitializer := false,
     Test / scalaJSUseMainModuleInitializer      := false,
