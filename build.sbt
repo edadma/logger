@@ -56,7 +56,7 @@ lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     organization := "io.github.edadma",
 //    libraryDependencies += "org.scalatest" %%% "scalatest" % "3.2.19" % "test",
     libraryDependencies ++= Seq(
-      "io.github.edadma" %%% "cross-platform" % "0.0.10",
+      "io.github.edadma" %%% "cross-platform" % "0.0.2",
     ),
     libraryDependencies ++= Seq(
 //      "com.github.scopt" %%% "scopt" % "4.1.0",
@@ -75,7 +75,7 @@ lazy val logger = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .jsSettings(
     jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
-//    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
+    scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.CommonJSModule) },
     //    Test / scalaJSUseMainModuleInitializer := true,
     //    Test / scalaJSUseTestModuleInitializer := false,
     Test / scalaJSUseMainModuleInitializer      := false,
