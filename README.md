@@ -1,70 +1,179 @@
-# module-name  
+# Scala Logger
 
-**Badges** 
+A simple, flexible logging library for Scala applications that supports both console and file-based logging. The library provides different log levels, categories, operation IDs, and customizable formatting.
 
-Optional badges such as npm version, test and build coverage, and so on.
+## Features
 
-**Summary** 
-
-One- or two-sentence description of what the module does.
-
-## Overview
-
-Optionally, include a section of one or two paragraphs with more high-level 
-information on what the module does, what problems it solves, why one would 
-use it and how.  Don't just repeat what's in the summary.
+- Multiple log levels (ALL, TRACE, DEBUG, INFO, WARN, ERROR, OFF)
+- Console and file-based logging
+- Support for categories to organize logs
+- Operation ID tracking
+- Customizable log formatting
+- Optional timestamps (enabled by default)
+- Node.js file system integration
 
 ## Installation
 
+Add the following dependency to your `build.sbt`:
+
+```scala
+libraryDependencies += "io.github.edadma" %%% "logger" % "0.0.6"
 ```
-$ npm install module-name
+
+## Basic Usage
+
+```scala
+import io.github.edadma.logger._
+
+// Get the default logger instance
+val logger = LoggerFactory.getLogger
+
+// Basic logging
+logger.info("This is a basic log message")
+logger.debug("Debug message with category", category = "HTTP")
+logger.warn("Warning message with operation ID", opId = 123)
+logger.error("Error message with category and opId", category = "DB", opId = "XYZ-789", metadata = Map("key1" -> 123, "key2" -> "value2"))
+
+// Configure timestamp display
+logger.setFormatter(new DefaultLogFormatter(includeTimestamp = false)) // Disable timestamps
+logger.info("Message without timestamp")
+
+// Re-enable timestamps
+logger.setFormatter(new DefaultLogFormatter(includeTimestamp = true))
+logger.info("Message with timestamp")
 ```
 
-## Basic use
+## Log Levels
 
-General description of how to use the module with basic example.
+The library supports the following log levels (in order of increasing severity):
+- ALL (lowest)
+- TRACE
+- DEBUG
+- INFO
+- WARN
+- ERROR
+- OFF (highest)
 
-## API 
+To set the log level:
 
-Full API documentation.
+```scala
+logger.setLogLevel(LogLevel.DEBUG)
+```
 
-## Examples
+Messages with a level lower than the current log level will not be logged.
 
-Additional examples here.
+## File Logging
 
-## Tests
+To enable file logging:
 
-What tests are included and how to run them. 
+```scala
+LoggerFactory.enableFileLogging("path/to/logfile.log")
+```
 
-## Contributing
+or
 
-This project welcomes contributions from the community. Contributions are
-accepted using GitHub pull requests; for more information, see 
-[GitHub documentation - Creating a pull request](https://help.github.com/articles/creating-a-pull-request/).
+```scala
+logger.setHandler(new FileHandler("path/to/logfile.log"))
+```
 
-For a good pull request, we ask you provide the following:
+or
 
-1. Include a clear description of your pull request in the description
-   with the basic "what" and "why"s for the request.
-2. The tests should pass as best as you can. GitHub will automatically run
-   the tests as well, to act as a safety net.
-3. The pull request should include tests for the change. A new feature should
-   have tests for the new feature and bug fixes should include a test that fails
-   without the corresponding code change and passes after they are applied.
-   The command `npm run test-cov` will generate a `coverage/` folder that
-   contains HTML pages of the code coverage, to better understand if everything
-   you're adding is being tested.
-4. If the pull request is a new feature, please include appropriate documentation 
-   in the `README.md` file as well.
-5. To help ensure that your code is similar in style to the existing code,
-   run the command `npm run lint` and fix any displayed issues.
+```scala
+logger.setFileLogging()
+```
 
-## Contributors
+## Custom Formatting
 
-Names of module "owners" (lead developers) and other developers who 
-have contributed.
+You can create a custom formatter by implementing the `LogFormatter` trait:
 
-## License
+```scala
+class CustomFormatter extends LogFormatter {
+  override def format(
+    level: LogLevel,
+    message: String,
+    category: Option[String],
+    opId: Option[String]
+  ): String = {
+    val categoryPart = category.map(c => s"($c)").getOrElse("")
+    val opIdPart = opId.map(id => s"[Op:$id]").getOrElse("")
+    s"$categoryPart$opIdPart ${level.toString}: $message"
+  }
+}
 
-Link to the license, with a short description of what it is, 
-e.g. "MIT" or whatever.
+// Set the custom formatter
+LoggerFactory.setFormatter(new CustomFormatter)
+```
+
+## Operation IDs
+
+The logger supports operation IDs for tracking related log messages:
+
+```scala
+// Using auto-incrementing operation IDs
+val opId = logger.nextOpId
+logger.info("Starting operation", opId = opId)
+logger.info("Operation completed", opId = opId)
+
+// Reset operation ID counter
+logger.resetOpId()
+```
+
+## Categories
+
+Categories help organize logs by component or feature:
+
+```scala
+logger.info("Database connected", category = "DB")
+logger.warn("HTTP request timeout", category = "HTTP")
+logger.error("Authentication failed", category = "AUTH")
+```
+
+## Default Log Format
+
+The default log format includes:
+- Timestamp (enabled by default, can be disabled)
+- Category (if provided)
+- Operation ID (if provided)
+- Log level
+- Message
+
+Example outputs:
+```
+# With timestamp (default)
+[2024-12-11 14:30:00] [HTTP] [opId: 123] [INFO] Request processed successfully
+
+# Without timestamp
+[HTTP] [opId: 123] [INFO] Request processed successfully
+```
+
+## Custom Handlers
+
+You can create custom log handlers by implementing the `LogHandler` trait:
+
+```scala
+class CustomHandler extends LogHandler {
+  override def log(level: LogLevel, message: String): Unit = {
+    // Custom logging implementation
+  }
+}
+
+// Set the custom handler
+logger.setHandler(new CustomHandler)
+```
+
+## Building and Testing
+
+The project uses sbt and Scala.js. Main build commands:
+
+```bash
+sbt compile      # Compile the project
+sbt test        # Run tests
+sbt fastLinkJS  # Create development JS bundle
+sbt fullLinkJS  # Create production JS bundle
+```
+
+## Requirements
+
+- Scala 3.5.2+
+- Scala.js 1.17.0+
+- Node.js (for file logging)
