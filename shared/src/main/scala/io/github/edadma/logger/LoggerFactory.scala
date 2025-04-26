@@ -3,9 +3,9 @@ package io.github.edadma.logger
 import io.github.edadma.logger.FileHandler
 
 object LoggerFactory {
-  private val logger = newLogger
-
   val defaultFormatter = new DefaultLogFormatter(includeTimestamp = true)
+
+  private val logger = newLogger
 
   def newLogger: Logger = new Logger(new ConsoleHandler, defaultFormatter)
 
@@ -13,7 +13,5 @@ object LoggerFactory {
 
   def setFileLogging(): Unit = logger.setFileLogging()
 
-  def setFormatter(newFormatter: LogFormatter): Unit = {
-    logger.setFormatter(newFormatter)
-  }
+  def setFormatter(newFormatter: LogFormatter): Unit = logger.setFormatter(newFormatter)
 }

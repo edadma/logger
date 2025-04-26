@@ -41,6 +41,7 @@ class Logger(private var handler: LogHandler, private var formatter: LogFormatte
   ): Unit = {
     if (LogLevel.shouldLog(logLevel, level)) {
       val opIdStr = if (opId != null) opId.toString else ""
+      println(formatter)
       val formattedMessage =
         formatter.format(
           level,

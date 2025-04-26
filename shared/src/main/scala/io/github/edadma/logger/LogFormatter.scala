@@ -1,5 +1,8 @@
 package io.github.edadma.logger
 
+import java.time.format.DateTimeFormatter
+import java.time.{ZoneOffset, ZonedDateTime}
+
 trait LogFormatter {
   def format(
       level: LogLevel,
@@ -11,8 +14,7 @@ trait LogFormatter {
 }
 
 class DefaultLogFormatter(includeTimestamp: Boolean = false) extends LogFormatter {
-  private val timestampFormatter: java.time.format.DateTimeFormatter =
-    java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+  private val timestampFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
 
   override def format(
       level: LogLevel,
@@ -21,7 +23,7 @@ class DefaultLogFormatter(includeTimestamp: Boolean = false) extends LogFormatte
       opId: Option[String],
       metadata: Option[Map[String, Any]],
   ): String = {
-    val timestamp    = if (includeTimestamp) s"[${java.time.LocalDateTime.now.format(timestampFormatter)}] " else ""
+    val timestamp = if (includeTimestamp) s"[${ZonedDateTime.now(ZoneOffset.UTC).format(timestampFormatter)}] " else ""
     val categoryPart = category.map(c => s"[$c] ").getOrElse("")
     val opIdPart     = opId.map(id => s"[opId: $id] ").getOrElse("")
     val metadataPart = metadata.map(m => s" | ${m.map((k, v) => s"$k=$v").mkString(" ")}").getOrElse("")
