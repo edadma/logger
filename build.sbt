@@ -81,6 +81,7 @@ lazy val root = project
   .in(file("."))
   .aggregate(logger.js, logger.jvm, logger.native)
   .settings(
+    name                := "logger",
     publish / skip      := true,
     publishLocal / skip := true,
   )
